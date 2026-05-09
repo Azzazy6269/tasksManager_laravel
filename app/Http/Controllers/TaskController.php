@@ -20,7 +20,7 @@ class TaskController extends Controller
     {
         $task = Task::with('user')->findorfail($id);
         $users = User::all();
-        $comments = Comment::where(['task_id'=>$id])->with('user')->get();
+        $comments = Comment::where(['commentable_id'=>$id, 'commentable_type'=>'App\Models\Task'])->with('user')->get();
         return view("tasks.show", ["task" => $task, "users" => $users, "comments" => $comments]);
     }
 

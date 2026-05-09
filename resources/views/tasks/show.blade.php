@@ -87,30 +87,21 @@
                 </div>
             </div>
 
-            <div class="mb-5">
-                <span class="d-block text-muted small text-uppercase fw-semibold mb-3">Comments</span>
-                @if(!empty($task['comments']))
-                    <ul class="list-group list-group-flush border rounded">
-                        @foreach($task['comments'] as $comment)
-                            <li class="list-group-item bg-light border-0 mb-1 rounded">{{ $comment }}</li>
-                        @endforeach
-                    </ul>
-                @else
-                    <p class="text-muted fst-italic">No comments</p>
-                @endif
-            </div>
+            
             <div class="mb-4">
                 @foreach($comments as $comment)
                 <div class="mb-3 p-3 bg-light rounded">
-                    <label class="form-label">{{ $users->find($comment['user_id'])->name }}</label>
-                    <text class="form-text">{{ $comment['content'] }}</text>
+                    <label class="form-label">{{ $users->find($comment['user_id'])->name }} : </label>
+                    <text class="">{{ $comment['content'] }}</text>
+                    <span class="d-block text-muted small">{{ $comment['created_at'] }}</span>
                 </div>
                 @endforeach
             </div>
             <form class="d-flex gap-2" action="{{ route("comment.store") }}" method="POST">
                 @csrf
                 @method('POST')
-                <input type="hidden" name="task_id" value="{{ $task['id'] }}">
+                <input type="hidden" name="commentable_id" value="{{ $task['id'] }}">
+                <input type="hidden" name="commentable_type" value="App\Models\Task">
                 <select name="user_id" class="form-select mb-2" required>
                     <option value=""  disabled selected>Select User</option>
                     @foreach($users as $user)
@@ -118,7 +109,6 @@
                     @endforeach
                 </select>
                 <input type="text" class="form-control mb-2" placeholder="Add a comment..." name="content">
-
                 <button type="submit" class="btn btn-primary px-4">Add Comment</button>
             </form>
             <!-- ACTIONS -->

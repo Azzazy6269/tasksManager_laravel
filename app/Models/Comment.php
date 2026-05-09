@@ -8,10 +8,17 @@ class Comment extends Model
 {    
     protected $table = 'comments';
     protected $fillable = [
-        'task_id',
+        'commentable_id',
+        'commentable_type',
         'user_id',
         'content'
     ];
+
+    public function commentable()
+    {
+        return $this->morphTo();
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
