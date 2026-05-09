@@ -6,24 +6,22 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Models\User;
+use App\Models\Comment;
 
 class TaskController extends Controller
 {
     public function index(Request $request)
     {
-        $tasks = Task::whereNull('deleted_at')->get();
-        $tasksCount = $tasks->count();
-        $pages = ceil($tasksCount / 10);
-        $page = $request->query('page',1);
-        $tasks = Task::whereNull('deleted_at')->skip(($page - 1) * 10)->take(10)->get();
-        return view("tasks.index", ["tasks" => $tasks, "pages" => $pages]);
+        $tasks = Task::whereNull('deleted_at')->paginate(10);
+        return view("tasks.index", ["tasks" => $tasks]);
     }
 
     public function show($id)
     {
-        $task = Task::findorfail($id);
-        $creator = User::findorfail($task['user_id']);
-        return view("tasks.show", ["task" => $task], ["creator" => $creator]);
+        $task = Task::with('user')->findorfail($id);
+        $users = User::all();
+        $comments = Comment::where(['task_id'=>$id])->with('user')->get();
+        return view("tasks.show", ["task" => $task, "users" => $users, "comments" => $comments]);
     }
 
     public function create()

@@ -17,7 +17,7 @@
             <div class="row mb-4">
                 <div class="col-sm-6 mb-3">
                     <span class="d-block text-muted small text-uppercase fw-semibold mb-1">Creator</span>
-                    <span class="fw-medium text-dark">{{ $creator['name']}}</span>
+                    <span class="fw-medium text-dark">{{ $task->user['name']}}</span>
                 </div>
                 <div class="col-sm-6 mb-3">
                     <span class="d-block text-muted small text-uppercase fw-semibold mb-1">Assigned To</span>
@@ -99,7 +99,28 @@
                     <p class="text-muted fst-italic">No comments</p>
                 @endif
             </div>
+            <div class="mb-4">
+                @foreach($comments as $comment)
+                <div class="mb-3 p-3 bg-light rounded">
+                    <label class="form-label">{{ $users->find($comment['user_id'])->name }}</label>
+                    <text class="form-text">{{ $comment['content'] }}</text>
+                </div>
+                @endforeach
+            </div>
+            <form class="d-flex gap-2" action="{{ route("comment.store") }}" method="POST">
+                @csrf
+                @method('POST')
+                <input type="hidden" name="task_id" value="{{ $task['id'] }}">
+                <select name="user_id" class="form-select mb-2" required>
+                    <option value=""  disabled selected>Select User</option>
+                    @foreach($users as $user)
+                        <option value="{{ $user['id'] }}">{{ $user['name'] }}</option>
+                    @endforeach
+                </select>
+                <input type="text" class="form-control mb-2" placeholder="Add a comment..." name="content">
 
+                <button type="submit" class="btn btn-primary px-4">Add Comment</button>
+            </form>
             <!-- ACTIONS -->
             <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
                 <a href="{{ route("tasks.index") }}" class="btn btn-outline-secondary px-4">Back</a>

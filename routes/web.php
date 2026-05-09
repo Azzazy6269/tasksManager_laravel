@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\CommentController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -17,4 +18,5 @@ Route::put("/tasks/{task}/update", [TaskController::class, "update"])->name("tas
 Route::get("/tasks/{task}/delete", [TaskController::class, "delete"])->name("tasks.delete");
 Route::delete("/tasks/{task}/destroy", [TaskController::class, "destroy"])->name("tasks.destroy");
 Route::patch("/tasks/{task}/restore", [TaskController::class, "restore"])->name("tasks.restore");
+Route::post("/comment/store", [CommentController::class, "store"])->name("comment.store");
 

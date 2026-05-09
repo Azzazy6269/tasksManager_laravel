@@ -28,6 +28,11 @@ class Task extends Model
         'labels' => 'array',
         'completed' => 'boolean',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }
 
 

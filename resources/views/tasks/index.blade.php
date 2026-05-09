@@ -14,13 +14,6 @@
     </div>
 </div>
 
-<div class="d-flex  align-items-center mb-4">
-@for($page = 1; $page <= $pages; $page++)
-    <a href="{{ route("tasks.index", ["page" => $page]) }}" class="btn btn-outline-secondary px-3 shadow-sm me-1 mb-3">
-        {{ $page }}
-    </a>
-@endfor
-</div>
 
 <div class="main-card">
     <div class="table-responsive">
@@ -77,6 +70,9 @@
                 @endforeach
             </tbody>
         </table>
+        <div class="d-flex justify-content-end mt-3 me-3">
+        {{ $tasks->links() }}
+        </div>
     </div>
 </div>
 @endsection
