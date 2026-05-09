@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Models\User;
 use App\Models\Comment;
+use App\Http\Requests\StoreTaskRequest;
 
 class TaskController extends Controller
 {
@@ -30,26 +31,17 @@ class TaskController extends Controller
         return view("tasks.create", ["users" => $users]);
     }
 
-    public function store(Request $request)
+    public function store(StoreTaskRequest $request)
     {
-        $task = [
-            "title" => $request->Title,
-            "user_id" => $request->User_id,
-            "priority" => $request->Priority,
-            "status" => $request->Status,
-            "due_date" => $request->Due_date,
-            "project_id" => $request->Project_id ?? null,
-            "board_column" => $request->Board_column ?? "To Do",
-            "description" => $request->Description ?? "",
-            "completed" => $request->Completed ? true : false,
-            "tags" => $request->Tags ? explode(',', $request->Tags) : [],
-            "assigned_to" => $request->Assigned_to ?? null,
-            "labels" => $request->Labels ? explode(',', $request->Labels) : []
-        ];
-
-        $task =Task::create($task);
-        $creator = User::findorfail($task['user_id']);
-        return view("tasks.show", ["task" => $task], ["creator" => $creator]);
+        $validated = $request->validated();
+        if (isset($validated['tags'])) {
+            $validated['tags'] = explode(',', $validated['tags']);
+        }
+        if (isset($validated['labels'])) {
+            $validated['labels'] = explode(',', $validated['labels']);
+        }
+        $task =Task::create($validated);
+        return redirect()->route('tasks.show', $task['id']);
     }
 
     public function edit($id)

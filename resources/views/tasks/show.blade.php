@@ -89,6 +89,7 @@
 
             
             <div class="mb-4">
+                @if (isset($comments)&& $comments->count() > 0)
                 @foreach($comments as $comment)
                 <div class="mb-3 p-3 bg-light rounded">
                     <label class="form-label">{{ $users->find($comment['user_id'])->name }} : </label>
@@ -96,6 +97,7 @@
                     <span class="d-block text-muted small">{{ $comment['created_at'] }}</span>
                 </div>
                 @endforeach
+                @endif
             </div>
             <form class="d-flex gap-2" action="{{ route("comment.store") }}" method="POST">
                 @csrf
@@ -108,7 +110,7 @@
                         <option value="{{ $user['id'] }}">{{ $user['name'] }}</option>
                     @endforeach
                 </select>
-                <input type="text" class="form-control mb-2" placeholder="Add a comment..." name="content">
+                <input type="text" class="form-control mb-2" placeholder="Add a comment..." name="content" required>
                 <button type="submit" class="btn btn-primary px-4">Add Comment</button>
             </form>
             <!-- ACTIONS -->
