@@ -8,6 +8,7 @@ use App\Models\Task;
 use App\Models\User;
 use App\Models\Comment;
 use App\Http\Requests\StoreTaskRequest;
+use App\Http\Requests\UpdateTaskRequest;
 
 class TaskController extends Controller
 {
@@ -51,29 +52,18 @@ class TaskController extends Controller
         return view("tasks.edit", ["task" => $task], ["users" => $users]);
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateTaskRequest $request, $id)
     {
         $task = Task::findorfail($id);
-
-        $updatedTask = [
-        "id" => $id,
-        "title" => $request->Title,
-        "user_id" => $request->User_id,
-        "priority" => $request->Priority,
-        "status" => $request->Status,
-        "due_date" => $request->Due_date,
-        "project_id" => $request->Project_id ?? $task["project_id"],
-        "board_column" => $request->Board_column ?? $task["board_column"],
-        "description" => $request->Description ?? $task["description"],
-        "completed" => $request->Completed ? true : false,
-        "tags" => $request->Tags ? explode(',', $request->Tags) : $task["tags"],
-        "assigned_to" => $request->Assigned_to ?? $task["assigned_to"],
-        "labels" => $request->Labels ? explode(',', $request->Labels) : $task["labels"]
-        ];
-
-        Task::where("id", $id)->update($updatedTask);
-        $creator = User::findorfail($updatedTask['user_id']);
-        return view("tasks.update", ["task" => $updatedTask], ["creator" => $creator]);
+        $validated = $request->validated();
+        if (isset($validated['tags'])) {
+            $validated['tags'] = explode(',', $validated['tags']);
+        }
+        if (isset($validated['labels'])) {
+            $validated['labels'] = explode(',', $validated['labels']);
+        }
+        Task::where("id", $id)->update($validated);
+        return redirect()->route('tasks.show', $task['id']);
     }
 
     public function delete($id){

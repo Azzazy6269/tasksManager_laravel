@@ -51,11 +51,32 @@ class DatabaseSeeder extends Seeder
         ]);
        
         $titles = [
-        'Fix Login Bug', 'Update UI Colors', 'Write Documentation', 'API Integration',
-        'Database Optimization', 'Setup AWS Server', 'Refactor Auth Controller',
-        'Email Template Design', 'Payment Gateway Test', 'Mobile Responsive Fix',
-        'Add Search Filter', 'Export CSV Feature', 'User Permissions Audit'
-    ];
+    'Fix Login Bug',
+    'Update UI Colors',
+    'Write Documentation',
+    'API Integration',
+    'Database Optimization',
+    'Setup AWS Server',
+    'Refactor Auth Controller',
+    'Email Template Design',
+    'Payment Gateway Test',
+    'Mobile Responsive Fix',
+    'Add Search Filter',
+    'Export CSV Feature',
+    'User Permissions Audit',
+    'Implement Dark Mode',
+    'Optimize Dashboard Widgets',
+    'Create Notification System',
+    'Fix Session Timeout',
+    'Build Analytics Page',
+    'Improve Form Validation',
+    'Integrate Stripe Payments',
+    'Create Activity Logs',
+    'Enhance Security Rules',
+    'Deploy Production Build',
+    'Setup Redis Cache',
+    'Improve API Performance'
+];
 
     $priorities = ['Urgent', 'High', 'Medium', 'Low'];
     $statuses = ['Todo', 'In Progress', 'Done'];
@@ -64,7 +85,7 @@ class DatabaseSeeder extends Seeder
 
     for ($i = 1; $i <= 25; $i++) {
         DB::table('tasks')->insert([
-            'title' => $titles[array_rand($titles)],
+            'title' => $titles[$i-1],
             'user_id' => rand(1, 4), 
             'priority' => $priorities[array_rand($priorities)],
             'status' => $statuses[array_rand($statuses)],
