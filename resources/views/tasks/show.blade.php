@@ -126,6 +126,27 @@
 
             </div>
 
+            @if($task->images->count() > 0)
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+
+        @foreach ($task->images as $image)
+            <div class="relative border border-gray-200 rounded-2xl overflow-hidden shadow bg-white">
+
+                <!-- Delete Button -->
+                
+
+                <!-- Image -->
+                <img
+                    src="{{ Storage::url($image->image_path) }}"
+                    alt="Task Image"
+                    class="w-full h-72 object-cover">
+            </div>
+        @endforeach
+
+            </div>
+        @else
+            <span class="text-gray-400 italic">No images</span>
+        @endif
             <!-- Comments -->
             <div class="mb-6">
 
@@ -161,19 +182,7 @@
 
                 <input type="hidden" name="commentable_id" value="{{ $task['id'] }}">
                 <input type="hidden" name="commentable_type" value="App\Models\Task">
-
-                <select name="user_id"
-                        class="border border-gray-300 rounded px-3 py-2 w-full sm:w-auto"
-                        required>
-
-                    <option value="" disabled selected>Select User</option>
-
-                    @foreach($users as $user)
-                        <option value="{{ $user['id'] }}">{{ $user['name'] }}</option>
-                    @endforeach
-
-                </select>
-
+                <input type="hidden" name="user_id" value="{{ auth()->id() }}">
                 <input type="text"
                        class="border border-gray-300 rounded px-3 py-2 w-full"
                        placeholder="Add a comment..."

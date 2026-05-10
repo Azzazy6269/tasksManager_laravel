@@ -34,7 +34,8 @@ class StoreTaskRequest extends FormRequest
             "completed" => "required|boolean",
             "tags" => "required|string",
             "assigned_to" => "required|string",
-            "labels" => "required|string"
+            "labels" => "required|string",
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:10240',
         ];
     }
 

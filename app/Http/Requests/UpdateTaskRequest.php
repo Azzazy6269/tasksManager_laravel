@@ -22,10 +22,10 @@ class UpdateTaskRequest extends FormRequest
      */
      public function rules(): array
     {
-        $taskId = $this->route('task');
-        //dd($taskId);
+        $taskSlug = $this->route('task');
+        //dd($taskSlug);
         return [
-            "title" => ["string","min:3","max:255",Rule::unique('tasks', 'title')->ignore($taskId,'slug')->whereNull('deleted_at')],
+            "title" => ["required","string","min:3","max:255",Rule::unique('tasks', 'title')->ignore($taskSlug,'slug')->whereNull('deleted_at')],
             "user_id" => "exists:users,id",
             "priority" => "string|min:1|in:low,medium,high,urgent",
             "status" => "string|min:1",
@@ -36,7 +36,8 @@ class UpdateTaskRequest extends FormRequest
             "completed" => "boolean",
             "tags" => "string",
             "assigned_to" => "string",
-            "labels" => "string"
+            "labels" => "string",
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:10240',
         ];
     }
 

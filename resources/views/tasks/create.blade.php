@@ -24,9 +24,9 @@
 
         <div class="p-8">
 
-            <form method="post" action="{{ route("tasks.store") }}">
+            <form method="post" action="{{ route("tasks.store") }}" enctype="multipart/form-data">
                 @csrf
-
+                
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
 
                     <!-- Left -->
@@ -248,6 +248,14 @@
                         </select>
 
                     </div>
+
+                    <div class="mb-5">
+                        <label class="block font-semibold mb-2 text-gray-700">Image</label>
+
+                        <input type="file"
+                               class="w-full border border-gray-200 bg-gray-50 rounded-xl p-3"
+                               name="image" value="{{ old('image') }}"/>
+
 
                 </div>
 

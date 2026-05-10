@@ -72,6 +72,16 @@
                                         Restore
                                     </button>
                                 </form>
+                                <form method="post"
+                                      action="{{ route('tasks.forceDelete', ['task' => $task]) }}">
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <button type="submit"
+                                            class="text-red-600  hover:text-red-800 font-medium">
+                                        permanently delete
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     @endforeach

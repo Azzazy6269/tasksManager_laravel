@@ -7,8 +7,11 @@ use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Models\User;
 use App\Models\Comment;
+use App\Models\Image;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use App\Http\Requests\UploadImageRequest;
+use Illuminate\Support\Facades\Storage;
 
 class TaskController extends Controller
 {
@@ -23,7 +26,8 @@ class TaskController extends Controller
         $task = Task::with('user')->where('slug', $slug)->firstOrFail();
         $users = User::all();
         $comments = Comment::where(['commentable_id'=>$task->id, 'commentable_type'=>'App\Models\Task'])->with('user')->get();
-        return view("tasks.show", ["task" => $task, "users" => $users, "comments" => $comments]);
+        $images = Image::where('task_id', $task->id)->get();
+        return view("tasks.show", ["task" => $task, "users" => $users, "comments" => $comments, "images" => $images]);
     }
 
     public function create()
@@ -41,7 +45,11 @@ class TaskController extends Controller
         if (isset($validated['labels'])) {
             $validated['labels'] = explode(',', $validated['labels']);
         }
-        $task =Task::create($validated);
+        //create task with validated data except image
+        $task = Task::create(
+            collect($validated)->except('image')->toArray()
+        );
+        $this->uploadImage($request, $task->slug);
         return redirect()->route('tasks.show', $task);
     }
 
@@ -62,7 +70,11 @@ class TaskController extends Controller
         if (isset($validated['labels'])) {
             $validated['labels'] = explode(',', $validated['labels']);
         }
-        Task::where("id", $task->id)->update($validated);
+        Task::where("id", $task->id)->update(
+        collect($validated)->except('image')->toArray()
+        );
+        //Task::where("id", $task->id)->update($validated);
+        $this->uploadImage($request, $slug);
         return redirect()->route('tasks.show', $task);
     }
 
@@ -87,5 +99,36 @@ class TaskController extends Controller
         $task = Task::withTrashed()->where('slug', $slug)->firstOrFail();
         $task->restore();
         return redirect()->route('tasks.deleted');
+    }
+
+    public function forceDelete($slug)
+    {
+        $task = Task::withTrashed()->where('slug', $slug)->firstOrFail();
+        foreach ($task->images as $image) {
+            $this->deleteImage($image->id);
+        }
+        $task->forceDelete();
+        return redirect()->route('tasks.deleted');
+    }
+
+    public function uploadImage(Request $request, $slug)
+    {
+        $task = Task::where('slug', $slug)->firstOrFail();
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $path = $image->store('images', 'public');
+            $task->images()->create(['image_path' => $path]);
+        }
+
+        return;
+    }
+
+    public function deleteImage($id)
+    {
+        $image = Image::findOrFail($id);
+        $task = $image->task;
+        Storage::disk('public')->delete($image->image_path);
+        $image->delete();
+        return;
     }
 }

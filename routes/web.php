@@ -21,6 +21,8 @@ Route::middleware('auth') -> group(function () {
     Route::delete("/tasks/{task}/destroy", [TaskController::class, "destroy"])->name("tasks.destroy");
     Route::patch("/tasks/{task}/restore", [TaskController::class, "restore"])->name("tasks.restore");
     Route::post("/comment/store", [CommentController::class, "store"])->name("comment.store");
+    Route::get("/images/{id}/delete", [TaskController::class, "deleteImage"])->name("tasks.deleteImage");
+    Route::delete("/tasks/{task}/force-delete", [TaskController::class, "forceDelete"])->name("tasks.forceDelete");
 });
 
 Route::get('/dashboard', function () {

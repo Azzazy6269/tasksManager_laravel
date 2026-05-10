@@ -26,7 +26,7 @@
 
         <div class="bg-white dark:bg-gray-800 shadow-sm rounded-xl p-6 border-t-4 border-blue-500">
 
-            <form method="post" action="{{ route("tasks.update", $task) }}">
+            <form method="post" action="{{ route("tasks.update", $task) }}" enctype='multipart/form-data'>
                 @csrf
                 @method('PUT')
 
@@ -205,6 +205,38 @@
                         </select>
                     </div>
 
+                </div>
+
+                 <div class="mb-4">
+                    <label class="block text-sm text-gray-500 uppercase mb-1">Images</label>
+                    @if($task->images->count() > 0)
+                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+
+                @foreach ($task->images as $image)
+                    <div class="relative border border-gray-200 rounded-2xl overflow-hidden shadow bg-white">
+
+                        <!-- Delete Button -->
+                        <a href="{{ route('tasks.deleteImage', $image->id) }}"
+                            class="absolute top-3 right-3 bg-red-500 hover:bg-red-600 text-white w-8 h-8 rounded-full flex items-center justify-center shadow-md transition">
+                            ✕
+                        </a>
+
+                        <!-- Image -->
+                        <img
+                            src="{{ Storage::url($image->image_path) }}"
+                            alt="Task Image"
+                            class="w-full h-72 object-cover">
+                    </div>
+                        @endforeach
+
+                            </div>
+                        @else
+                            <span class="text-gray-400 italic">No images</span>
+                        @endif
+
+                <input type="file"
+                class="w-full bg-gray-100 border-0 p-2 rounded"
+                name="image" /> 
                 </div>
 
                 <button type="submit"
