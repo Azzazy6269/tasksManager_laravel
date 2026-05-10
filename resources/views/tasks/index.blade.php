@@ -1,78 +1,114 @@
-@extends("layouts.app")
-@section("page title") Tasks @endSection
+<x-app-layout>
 
-@section("content")
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="fw-bold text-dark">Tasks Dashboard</h1>
-    <div>
-    <a href="{{ route("tasks.create") }}" class="btn btn-primary px-4 shadow-sm">
-        Create New Task
-    </a>
-    <a href="{{ route("tasks.deleted") }}" class="btn btn-warning px-4 shadow-sm">
-        Deleted Tasks
-    </a>
+<div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100">
+        Tasks Dashboard
+    </h1>
+
+    <div class="flex gap-2">
+
+        <a href="{{ route("tasks.create") }}"
+           class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow">
+            Create New Task
+        </a>
+
+        <a href="{{ route("tasks.deleted") }}"
+           class="bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded shadow">
+            Deleted Tasks
+        </a>
+
     </div>
 </div>
 
+<div class="bg-white dark:bg-gray-800 shadow rounded-xl overflow-hidden">
 
-<div class="main-card">
-    <div class="table-responsive">
-        <table class="table table-hover mb-0">
-            <thead>
+    <div class="overflow-x-auto">
+
+        <table class="min-w-full text-sm">
+
+            <thead class="bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-200">
+
                 <tr>
-                    <th scope="col" class="ps-3">#ID</th>
-                    <th scope="col">Title</th>
-                    <!--th scope="col">Creator</th-->
-                    <th scope="col">Priority</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Due Date</th>
-                    <th scope="col" class="text-end pe-3">Actions</th>
+                    <th class="text-left px-4 py-3">#ID</th>
+                    <th class="text-left px-4 py-3">Title</th>
+                    <th class="text-left px-4 py-3">Priority</th>
+                    <th class="text-left px-4 py-3">Status</th>
+                    <th class="text-left px-4 py-3">Due Date</th>
+                    <th class="text-right px-4 py-3">Actions</th>
                 </tr>
+
             </thead>
-            <tbody>
+
+            <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+
                 @foreach($tasks as $task)
-                    <tr>
-                        <td class="fw-bold text-secondary ps-3">{{ $task['id'] }}</td>
-                        <td><span class="fw-semibold text-dark">{{ $task['title'] }}</span></td>
-                        <!--td>
-                            <div class="d-flex align-items-center">
-                                <div class="bg-light rounded-circle p-2 me-2" style="width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-size: 0.7rem;">
-                                    {{ strtoupper(substr($task['creator'], 0, 2)) }}
-                                </div>
-                                {{ $task['creator'] }}
-                            </div>
-                        </td-->
-                        <td>
-                            <span class="badge rounded-pill bg-light text-dark border">{{ $task['priority'] }}</span>
+                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
+
+                        <td class="px-4 py-3 font-bold text-gray-500">
+                            {{ $task['id'] }}
                         </td>
-                        <td>
-                            <span class="badge rounded-pill {{ $task['status'] == 'yes' ? 'bg-success-subtle text-success' : 'bg-warning-subtle text-warning' }} px-3">
-                                {{ $task['status'] }}
+
+                        <td class="px-4 py-3 font-semibold text-gray-800 dark:text-gray-100">
+                            {{ $task['title'] }}
+                        </td>
+
+                        <td class="px-4 py-3">
+                            <span class="px-3 py-1 text-xs rounded-full border bg-gray-100 text-gray-700">
+                                {{ $task['priority'] }}
                             </span>
                         </td>
-                        <td class="text-muted">{{ $task['due_date'] }}</td>
-                        <td class="text-end pe-3">
-                            <div class="d-flex justify-content-end align-items-center">
-                                <a href="{{ route("tasks.show", ["task" =>$task['id']]) }}" class="btn btn-link text-success p-1 ms-1 text-decoration-none">
+
+                        <td class="px-4 py-3">
+
+                            <span class="px-3 py-1 text-xs rounded-full
+                                {{ $task['status'] == 'yes'
+                                    ? 'bg-green-100 text-green-700'
+                                    : 'bg-yellow-100 text-yellow-700' }}">
+                                {{ $task['status'] }}
+                            </span>
+
+                        </td>
+
+                        <td class="px-4 py-3 text-gray-500">
+                            {{ $task['due_date'] }}
+                        </td>
+
+                        <td class="px-4 py-3 text-right">
+
+                            <div class="flex justify-end gap-2">
+
+                                <a href="{{ route("tasks.show", ["task" =>$task['id']]) }}"
+                                   class="text-green-600 hover:underline">
                                     Show
                                 </a>
-                                <a href="{{ route("tasks.edit", ["task" =>$task['id']]) }}" class="btn btn-link text-warning p-1 ms-1 text-decoration-none">
+
+                                <a href="{{ route("tasks.edit", ["task" =>$task['id']]) }}"
+                                   class="text-yellow-600 hover:underline">
                                     Edit
                                 </a>
-                                <a href="{{ route("tasks.delete", ["task" =>$task['id']]) }}" class="btn btn-link text-danger p-1 ms-1 text-decoration-none">
+
+                                <a href="{{ route("tasks.delete", ["task" =>$task['id']]) }}"
+                                   class="text-red-600 hover:underline">
                                     Delete
                                 </a>
-                                
-                                
+
                             </div>
+
                         </td>
+
                     </tr>
                 @endforeach
+
             </tbody>
+
         </table>
-        <div class="d-flex justify-content-end mt-3 me-3">
-        {{ $tasks->links() }}
-        </div>
+
     </div>
+
+    <div class="flex justify-end p-4">
+        {{ $tasks->links() }}
+    </div>
+
 </div>
-@endsection
+
+</x-app-layout>

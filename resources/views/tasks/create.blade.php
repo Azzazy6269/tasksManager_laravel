@@ -1,321 +1,265 @@
-@extends("layouts.app")
-@section("page title", "Create Task")
+<x-app-layout>
 
-@section("content")
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-xl-10 col-lg-11">
+<div class="max-w-6xl mx-auto py-10 px-4">
 
-            <!-- Header -->
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <div>
-                    <h1 class="fw-bold text-dark mb-1">Create New Task</h1>
-                    <p class="text-muted mb-0">Fill in the details below to create a task.</p>
-                </div>
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-1">
+                Create New Task
+            </h1>
+            <p class="text-gray-500 dark:text-gray-400">
+                Fill in the details below to create a task.
+            </p>
+        </div>
 
-                <a href="{{ route("tasks.index") }}"
-                   class="btn btn-light border shadow-sm px-4 rounded-pill">
-                    <i class="bi bi-arrow-left me-1"></i> Cancel
-                </a>
-            </div>
+        <a href="{{ route("tasks.index") }}"
+           class="bg-white border border-gray-200 shadow px-4 py-2 rounded-full text-gray-700 hover:bg-gray-50">
+            Cancel
+        </a>
+    </div>
 
-            <!-- Card -->
-            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+    <div class="bg-white dark:bg-gray-800 shadow-lg rounded-2xl overflow-hidden">
 
-                <!-- Top Accent -->
-                <div style="height: 6px; background: linear-gradient(to right, #0d6efd, #6f42c1);"></div>
+        <div class="h-1 bg-gradient-to-r from-blue-600 to-purple-600"></div>
 
-                <div class="card-body p-5">
+        <div class="p-8">
 
-                    <form method="post" action="{{ route("tasks.store") }}">
-                        @csrf
+            <form method="post" action="{{ route("tasks.store") }}">
+                @csrf
 
-                        <div class="row g-5">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
 
-                            <!-- Left Side -->
-                            <div class="col-md-6">
+                    <!-- Left -->
+                    <div>
 
-                                <div class="mb-4">
-                                    <h5 class="fw-bold text-primary mb-1">Basic Information</h5>
-                                    <small class="text-muted">Main task information</small>
-                                </div>
-
-                                <div class="mb-4">
-                                    <label class="form-label fw-semibold">Title</label>
-                                    <input type="text"
-                                           class="form-control custom-input @error('title') is-invalid @enderror"
-                                           name="title"
-                                           placeholder="Enter task title"
-                                           value="{{ old('title') }}"
-                                           required/>
-
-                                    <div class="invalid-feedback">
-                                        @error('title')
-                                            {{ $message }}
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                <div class="mb-4">
-                                    <label class="form-label fw-semibold">Creator</label>
-
-                                    <select class="form-select custom-input @error('user_id') is-invalid @enderror"
-                                            name="user_id">
-
-                                        @foreach ($users as $user)
-                                            <option value="{{ $user['id'] }}"
-                                                {{ old('user_id') == $user['id'] ? 'selected' : '' }}>
-                                                {{ $user['name'] }}
-                                            </option>
-                                        @endforeach
-
-                                    </select>
-                                </div>
-
-                                <div class="mb-4">
-                                    <label class="form-label fw-semibold">Assigned To</label>
-
-                                    <input type="text"
-                                           class="form-control custom-input @error('assigned_to') is-invalid @enderror"
-                                           name="assigned_to"
-                                           placeholder="Assign task to"
-                                           value="{{ old('assigned_to') }}"/>
-
-                                    <div class="invalid-feedback">
-                                        @error('assigned_to')
-                                            {{ $message }}
-                                        @enderror
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <!-- Right Side -->
-                            <div class="col-md-6">
-
-                                <div class="mb-4">
-                                    <h5 class="fw-bold text-primary mb-1">Task Details</h5>
-                                    <small class="text-muted">Manage task workflow</small>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-sm-6 mb-4">
-                                        <label class="form-label fw-semibold">Priority</label>
-                                        <select class="form-select custom-input @error('priority') is-invalid @enderror"
-                                                name="priority">
-                                            <option {{ old('priority') == "low" ? 'selected' : '' }} value="low">Low</option>
-                                            <option {{ old('priority') == "medium" ? 'selected' : '' }} value="medium">Medium</option>
-                                            <option {{ old('priority') == "high" ? 'selected' : '' }} value="high">High</option>
-                                            <option {{ old('priority') == "urgent" ? 'selected' : '' }} value="urgent">Urgent</option>
-                                        </select>
-                                        <div class="invalid-feedback">
-                                            @error('priority')
-                                                {{ $message }}
-                                            @enderror
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-6 mb-4">
-                                        <label class="form-label fw-semibold">Status</label>
-
-                                        <input type="text"
-                                               class="form-control custom-input @error('status') is-invalid @enderror"
-                                               name="status"
-                                               placeholder="Open / Closed"
-                                               value="{{ old('status') }}"/>
-                                        <div class="invalid-feedback">
-                                            @error('status')
-                                                {{ $message }}
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="mb-4">
-                                    <label class="form-label fw-semibold">Board Column</label>
-
-                                    <select class="form-select custom-input @error('board_column') is-invalid @enderror"
-                                            name="board_column">
-                                        <option {{ old('board_column') == "To Do" ? 'selected' : '' }} value="To Do">To Do</option>
-                                        <option {{ old('board_column') == "In Progress" ? 'selected' : '' }} value="In Progress">In Progress</option>
-                                        <option {{ old('board_column') == "Done" ? 'selected' : '' }} value="Done">Done</option>
-                                        <option {{ old('board_column') == "Backlog" ? 'selected' : '' }} value="Backlog">Backlog</option>
-                                    </select>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-sm-6 mb-4">
-                                        <label class="form-label fw-semibold">Project ID</label>
-
-                                        <input type="number"
-                                               class="form-control custom-input @error('project_id') is-invalid @enderror"
-                                               name="project_id"
-                                               placeholder="ID"
-                                               value="{{ old('project_id') }}"/>
-
-                                        <div class="invalid-feedback">
-                                            @error('project_id')
-                                                {{ $message }}
-                                            @enderror
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-6 mb-4">
-                                        <label class="form-label fw-semibold">Due Date</label>
-
-                                        <input type="date"
-                                               class="form-control custom-input @error('due_date') is-invalid @enderror"
-                                               name="due_date"
-                                               value="{{ old('due_date') }}"    />
-
-                                        <div class="invalid-feedback">
-                                            @error('due_date')
-                                                {{ $message }}
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-
+                        <div class="mb-6">
+                            <h5 class="font-bold text-blue-600 mb-1">Basic Information</h5>
+                            <small class="text-gray-500">Main task information</small>
                         </div>
 
-                        <!-- Divider -->
-                        <div class="my-5">
-                            <hr class="opacity-10">
+                        <div class="mb-5">
+                            <label class="block font-semibold mb-2 text-gray-700">Title</label>
+                            <input type="text"
+                                   class="w-full border border-gray-200 bg-gray-50 rounded-xl p-3 focus:ring-4 focus:ring-blue-100 focus:border-blue-500 "
+                                   name="title"
+                                   placeholder="Enter task title"
+                                   value="{{ old('title') }}"
+                                   required/>
+                                   @error('title')
+                                    <p class="text-red-500 text-sm mt-2">
+                                    {{ $message }}
+                                    </p>
+                                    @enderror
+                                   
                         </div>
 
-                        <!-- Bottom Section -->
-                        <div class="row">
+                        <div class="mb-5">
+                            <label class="block font-semibold mb-2 text-gray-700">Creator</label>
 
-                            <div class="col-12 mb-4">
-                                <label class="form-label fw-semibold">Description</label>
+                            <select class="w-full border border-gray-200 bg-gray-50 rounded-xl p-3"
+                                    name="user_id">
 
-                                <textarea class="form-control custom-input @error('description') is-invalid @enderror"
-                                          name="description"
-                                          rows="5"
-                                          placeholder="Add some details...">{{ old('description') }}</textarea>
+                                @foreach ($users as $user)
+                                    <option value="{{ $user['id'] }}"
+                                        {{ old('user_id') == $user['id'] ? 'selected' : '' }}>
+                                        {{ $user['name'] }}
+                                    </option>
+                                @endforeach
 
-                                <div class="invalid-feedback">
-                                    @error('description')
-                                        {{ $message }}
+                            </select>
+                        </div>
+
+                        <div class="mb-5">
+                            <label class="block font-semibold mb-2 text-gray-700">Assigned To</label>
+
+                            <input type="text"
+                                   class="w-full border border-gray-200 bg-gray-50 rounded-xl p-3"
+                                   name="assigned_to"
+                                   placeholder="Assign task to"
+                                   value="{{ old('assigned_to') }}"
+                                   required
+                                   />
+                                   @error('assigned_to')
+                                    <p class="text-red-500 text-sm mt-2">
+                                    {{ $message }}
+                                    </p>
                                     @enderror
-                                </div>
-                            </div>
+                                    
+                        </div>
 
-                            <div class="col-md-6 mb-4">
-                                <label class="form-label fw-semibold">Tags</label>
+                    </div>
 
-                                <input type="text"
-                                       class="form-control custom-input @error('tags') is-invalid @enderror"
-                                       name="tags"
-                                       placeholder="e.g. backend, api"
-                                       value="{{ old('tags') }}"/>
+                    <!-- Right -->
+                    <div>
 
-                                <div class="invalid-feedback">
-                                    @error('tags')
-                                        {{ $message }}
-                                    @enderror
-                                </div>
+                        <div class="mb-6">
+                            <h5 class="font-bold text-blue-600 mb-1">Task Details</h5>
+                            <small class="text-gray-500">Manage task workflow</small>
+                        </div>
 
-                                <small class="text-muted">Separate tags with commas</small>
-                            </div>
+                        <div class="grid grid-cols-2 gap-4 mb-5">
 
-                            <div class="col-md-6 mb-4">
-                                <label class="form-label fw-semibold">Labels</label>
-
-                                <input type="text"
-                                       class="form-control custom-input @error('labels') is-invalid @enderror"
-                                       name="labels"
-                                       placeholder="e.g. urgent, bug"
-                                       value="{{ old('labels') }}"/>
-
-                                <div class="invalid-feedback">
-                                    @error('labels')
-                                        {{ $message }}
-                                    @enderror
-                                </div>
-
-                                <small class="text-muted">Separate labels with commas</small>
-                            </div>
-
-                            <div class="col-md-4 mb-4">
-                                <label class="form-label fw-semibold">Completed</label>
-
-                                <select class="form-select custom-input @error('completed') is-invalid @enderror"
-                                        name="completed">
-
-                                    <option {{ old('completed') == 0 ? 'selected' : '' }} value="0">No</option>
-                                    <option {{ old('completed') == 1 ? 'selected' : '' }} value="1">Yes</option>
+                            <div>
+                                <label class="block font-semibold mb-2 text-gray-700">Priority</label>
+                                <select class="w-full border border-gray-200 bg-gray-50 rounded-xl p-3"
+                                        name="priority">
+                                    <option value="low" {{ old('priority') == 'low' ? 'selected' : '' }}>Low</option>
+                                    <option value="medium" {{ old('priority') == 'medium' ? 'selected' : '' }}>Medium</option>
+                                    <option value="high" {{ old('priority') == 'high' ? 'selected' : '' }}>High</option>
+                                    <option value="urgent" {{ old('priority') == 'urgent' ? 'selected' : '' }}>Urgent</option>
                                 </select>
+                            </div>
 
-                                <div class="invalid-feedback">
-                                    @error('completed')
+                            <div>
+                                <label class="block font-semibold mb-2 text-gray-700">Status</label>
+
+                                <input type="text"
+                                       class="w-full border border-gray-200 bg-gray-50 rounded-xl p-3"
+                                       name="status"
+                                       placeholder="Open / Closed"
+                                       value="{{ old('status') }}"/>
+                                       @error('status')
+                                        <p class="text-red-500 text-sm mt-2">
                                         {{ $message }}
-                                    @enderror
-                                </div>
+                                        </p>
+                                        @enderror
                             </div>
 
                         </div>
 
-                        <!-- Button -->
-                        <div class="d-grid mt-4">
-                            <button type="submit"
-                                    class="btn btn-primary py-3 rounded-3 fw-bold shadow-sm create-btn">
-                                Create Task
-                            </button>
+                        <div class="mb-5">
+                            <label class="block font-semibold mb-2 text-gray-700">Board Column</label>
+
+                            <select class="w-full border border-gray-200 bg-gray-50 rounded-xl p-3"
+                                    name="board_column">
+
+                                <option value="To Do" {{ old('board_column') == 'To Do' ? 'selected' : '' }}>To Do</option>
+                                <option value="In Progress" {{ old('board_column') == 'In Progress' ? 'selected' : '' }}>In Progress</option>
+                                <option value="Done" {{ old('board_column') == 'Done' ? 'selected' : '' }}>Done</option>
+                                <option value="Backlog" {{ old('board_column') == 'Backlog' ? 'selected' : '' }}>Backlog</option>
+
+                            </select>
                         </div>
 
-                    </form>
+                        <div class="grid grid-cols-2 gap-4 mb-5">
+
+                            <div>
+                                <label class="block font-semibold mb-2 text-gray-700">Project ID</label>
+
+                                <input type="number"
+                                       class="w-full border border-gray-200 bg-gray-50 rounded-xl p-3"
+                                       name="project_id"
+                                       placeholder="ID"
+                                       value="{{ old('project_id') }}"
+                                       required/>
+                                       @error('project_id')
+                                    <p class="text-red-500 text-sm mt-2">
+                                    {{ $message }}
+                                    </p>
+                                    @enderror
+                            </div>
+
+                            <div>
+                                <label class="block font-semibold mb-2 text-gray-700">Due Date</label>
+
+                                <input type="date"
+                                       class="w-full border border-gray-200 bg-gray-50 rounded-xl p-3"
+                                       name="due_date"
+                                       value="{{ old('due_date') }}"
+                                       required/>
+                                       @error('due_date')
+                                        <p class="text-red-500 text-sm mt-2">
+                                        {{ $message }}
+                                        </p>
+                                    @enderror
+                            </div>
+
+                        </div>
+
+                    </div>
 
                 </div>
-            </div>
+
+                <hr class="my-8 border-gray-200">
+
+                <!-- Bottom -->
+                <div>
+
+                    <div class="mb-5">
+                        <label class="block font-semibold mb-2 text-gray-700">Description</label>
+
+                        <textarea class="w-full border border-gray-200 bg-gray-50 rounded-xl p-3"
+                                  name="description"
+                                  rows="5"
+                                  placeholder="Add some details...">{{ old('description') }}</textarea>
+                                  @error('description')
+                                    <p class="text-red-500 text-sm mt-2">
+                                        {{ $message }}
+                                    </p>
+                                    @enderror
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6 mb-5">
+
+                        <div>
+                            <label class="block font-semibold mb-2 text-gray-700">Tags</label>
+
+                            <input type="text"
+                                   class="w-full border border-gray-200 bg-gray-50 rounded-xl p-3"
+                                   name="tags"
+                                   placeholder="e.g. backend, api"
+                                   value="{{ old('tags') }}"/>
+                                   @error('tags')
+                                    <p class="text-red-500 text-sm mt-2">
+                                        {{ $message }}
+                                    </p>
+                                    @enderror
+
+                            <small class="text-gray-400">Separate tags with commas</small>
+                        </div>
+
+                        <div>
+                            <label class="block font-semibold mb-2 text-gray-700">Labels</label>
+
+                            <input type="text"
+                                   class="w-full border border-gray-200 bg-gray-50 rounded-xl p-3"
+                                   name="labels"
+                                   placeholder="e.g. urgent, bug"
+                                   value="{{ old('labels') }}"/>
+                                   @error('labels')
+                                    <p class="text-red-500 text-sm mt-2">
+                                        {{ $message }}
+                                    </p>
+                                    @enderror   
+                            <small class="text-gray-400">Separate labels with commas</small>
+                        </div>
+
+                    </div>
+
+                    <div class="w-40 mb-6">
+
+                        <label class="block font-semibold mb-2 text-gray-700">Completed</label>
+
+                        <select class="w-full border border-gray-200 bg-gray-50 rounded-xl p-3"
+                                name="completed">
+                            <option  value="0" {{ old('completed') == 0 ? 'selected' : '' }}>No</option>
+                            <option value="1" {{ old('completed') == 1 ? 'selected' : '' }}>Yes</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <button type="submit"
+                        class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-bold shadow transition">
+                    Create Task
+                </button>
+
+            </form>
+
         </div>
     </div>
 </div>
 
-<style>
-    body{
-        background: #f4f7fb;
-    }
-
-    .custom-input{
-        border: 1px solid #e5e7eb !important;
-        background: #f9fafb !important;
-        border-radius: 14px !important;
-        padding: 14px 16px !important;
-        transition: all .25s ease;
-        box-shadow: none !important;
-    }
-
-    .custom-input:focus{
-        background: #fff !important;
-        border-color: #0d6efd !important;
-        box-shadow: 0 0 0 4px rgba(13,110,253,.12) !important;
-    }
-
-    .form-label{
-        color: #374151;
-        margin-bottom: 8px;
-    }
-
-    .card{
-        background: #fff;
-    }
-
-    .create-btn{
-        transition: all .25s ease;
-        font-size: 1rem;
-        letter-spacing: .4px;
-    }
-
-    .create-btn:hover{
-        transform: translateY(-2px);
-        box-shadow: 0 12px 24px rgba(13,110,253,.18) !important;
-    }
-
-    hr{
-        border-color: #dee2e6;
-    }
-</style>
-@endsection
+</x-app-layout>

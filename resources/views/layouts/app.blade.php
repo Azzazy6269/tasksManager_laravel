@@ -1,105 +1,100 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('page title')</title>
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <style>
-        html, body {
-            height: 100%;
-        }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
-            color: #1e293b;
-            display: flex;
-            flex-direction: column;
-        }
-        .content-wrapper {
-            flex: 1 0 auto; /* هذا الجزء يضمن تممد المحتوى ودفع الفوتر للأسفل */
-        }
-        .navbar {
-            background: #0f172a !important;
-            padding: 1rem 0;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-        .navbar-brand {
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
-        .main-card {
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            padding: 2rem;
-        }
-        .footer {
-            background: #0f172a;
-            color: #94a3b8;
-            padding: 2rem 0;
-            margin-top: 3rem;
-            flex-shrink: 0;
-        }
-        .footer a {
-            color: #f8fafc;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-        .footer a:hover {
-            color: #3b82f6;
-        }
-        .footer-border {
-            border-top: 1px solid #1e293b;
-            margin-top: 1.5rem;
-            padding-top: 1.5rem;
-        }
-    </style>
-</head>
-<body>
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-<div class="content-wrapper">
-    <nav class="navbar navbar-expand-lg navbar-dark mb-5">
-      <div class="container">
-        <a class="navbar-brand text-primary" href="/">MY<span class="text-white">APP</span></a>
-        <div class="navbar-nav ms-auto">
-            <a class="nav-link text-white fw-medium" href="/tasks">Tasks Explorer</a>
-        </div>
-      </div>
-    </nav>
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    </head>
 
-    <div class="container">
-        @yield('content')
-    </div>
-</div>
+    <body class="font-sans antialiased bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100">
 
-<footer class="footer">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-md-6 text-center text-md-start">
-                <h5 class="text-white fw-bold mb-1">My Task Manager</h5>
-                <p class="small mb-0">Organize your work and life, finally.</p>
-            </div>
-            <div class="col-md-6 text-center text-md-end mt-3 mt-md-0">
-                <div class="d-flex justify-content-center justify-content-md-end gap-3">
-                    <a href="#" class="small">Privacy Policy</a>
-                    <a href="#" class="small">Terms of Service</a>
-                    <a href="#" class="small">Help Center</a>
+        <nav class="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16"> <div class="flex-shrink-0 flex items-center">
+                        <span class="font-extrabold text-2xl tracking-tight text-indigo-600 dark:text-indigo-400">
+                            {{ config('app.name', 'Laravel') }}
+                        </span>
+                    </div>
+
+                    <div class="flex items-center gap-6">
+                        @include('layouts.navigation')
+                    </div>
+
                 </div>
             </div>
-        </div>
-        <div class="footer-border text-center">
-            <p class="small mb-0">&copy; 2026 My App Inc. Built with Laravel & Mohammed Ibrahim</p>
-        </div>
-    </div>
-</footer>
+        </nav>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <div class="min-h-screen">
 
-</body>
+            @isset($header)
+                <header class="bg-white dark:bg-slate-900 shadow-sm border-b border-slate-100 dark:border-slate-800">
+                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                        <h1 class="text-xl font-semibold leading-tight">
+                            {{ $header }}
+                        </h1>
+                    </div>
+                </header>
+            @endisset
+
+            <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                <div class="animate-fade-in">
+                    {{ $slot }}
+                </div>
+            </main>
+
+        </div>
+
+        <footer class="bg-slate-900 text-slate-300 border-t border-slate-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-8">
+                    <div>
+                        <h3 class="text-white font-bold text-lg mb-4 underline decoration-indigo-500 decoration-2 underline-offset-4">About the Platform</h3>
+                        <p class="text-sm leading-relaxed opacity-80">
+                            We provide integrated technical solutions built with the latest technologies to ensure the best user experience. Our goal is to simplify daily processes and provide a smart work environment.
+                        </p>
+                    </div>
+
+                    <div>
+                        <h3 class="text-white font-bold text-lg mb-4 underline decoration-indigo-500 decoration-2 underline-offset-4">Quick Links</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="#" class="hover:text-indigo-400 transition-colors">home</a></li>
+                            <li><a href="#" class="hover:text-indigo-400 transition-colors">about us</a></li>
+                            <li><a href="#" class="hover:text-indigo-400 transition-colors">contact us</a></li>
+                            <li><a href="#" class="hover:text-indigo-400 transition-colors">privacy policy</a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h3 class="text-white font-bold text-lg mb-4 underline decoration-indigo-500 decoration-2 underline-offset-4">Contact Us</h3>
+                        <p class="text-sm opacity-80 mb-4">subscribe to our newsletter</p>
+                        <div class="flex gap-2">
+                            <input type="email" placeholder="Your Email" class="bg-slate-800 border-none rounded px-3 py-2 text-sm w-full focus:ring-2 focus:ring-indigo-500">
+                            <button class="bg-indigo-600 text-white px-4 py-2 rounded text-sm hover:bg-indigo-500 transition-colors">Subscribe</button>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="border-slate-800 mb-8">
+
+                <div class="flex flex-col md:flex-row justify-between items-center text-xs opacity-60">
+                    <div>
+                        © {{ date('Y') }} {{ config('app.name', 'Laravel') }}. Copyrights are deserved
+                    </div>
+                    <div class="mt-4 md:mt-0 flex items-center gap-4">
+                        <span></span>
+                    </div>
+                </div>
+
+            </div>
+        </footer>
+
+    </body>
 </html>
