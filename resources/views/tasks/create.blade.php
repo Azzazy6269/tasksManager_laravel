@@ -101,12 +101,13 @@
                                 <div class="row">
                                     <div class="col-sm-6 mb-4">
                                         <label class="form-label fw-semibold">Priority</label>
-
-                                        <input type="text"
-                                               class="form-control custom-input @error('priority') is-invalid @enderror"
-                                               name="priority"
-                                               placeholder="Urgent / High"/>
-
+                                        <select class="form-select custom-input @error('priority') is-invalid @enderror"
+                                                name="priority">
+                                            <option {{ old('priority') == "low" ? 'selected' : '' }} value="low">Low</option>
+                                            <option {{ old('priority') == "medium" ? 'selected' : '' }} value="medium">Medium</option>
+                                            <option {{ old('priority') == "high" ? 'selected' : '' }} value="high">High</option>
+                                            <option {{ old('priority') == "urgent" ? 'selected' : '' }} value="urgent">Urgent</option>
+                                        </select>
                                         <div class="invalid-feedback">
                                             @error('priority')
                                                 {{ $message }}
@@ -120,8 +121,8 @@
                                         <input type="text"
                                                class="form-control custom-input @error('status') is-invalid @enderror"
                                                name="status"
-                                               placeholder="Open / Closed"/>
-
+                                               placeholder="Open / Closed"
+                                               value="{{ old('status') }}"/>
                                         <div class="invalid-feedback">
                                             @error('status')
                                                 {{ $message }}
@@ -149,7 +150,8 @@
                                         <input type="number"
                                                class="form-control custom-input @error('project_id') is-invalid @enderror"
                                                name="project_id"
-                                               placeholder="ID"/>
+                                               placeholder="ID"
+                                               value="{{ old('project_id') }}"/>
 
                                         <div class="invalid-feedback">
                                             @error('project_id')
@@ -163,7 +165,8 @@
 
                                         <input type="date"
                                                class="form-control custom-input @error('due_date') is-invalid @enderror"
-                                               name="due_date"/>
+                                               name="due_date"
+                                               value="{{ old('due_date') }}"    />
 
                                         <div class="invalid-feedback">
                                             @error('due_date')
@@ -191,7 +194,7 @@
                                 <textarea class="form-control custom-input @error('description') is-invalid @enderror"
                                           name="description"
                                           rows="5"
-                                          placeholder="Add some details..."></textarea>
+                                          placeholder="Add some details...">{{ old('description') }}</textarea>
 
                                 <div class="invalid-feedback">
                                     @error('description')
@@ -206,7 +209,8 @@
                                 <input type="text"
                                        class="form-control custom-input @error('tags') is-invalid @enderror"
                                        name="tags"
-                                       placeholder="e.g. backend, api"/>
+                                       placeholder="e.g. backend, api"
+                                       value="{{ old('tags') }}"/>
 
                                 <div class="invalid-feedback">
                                     @error('tags')
@@ -223,7 +227,8 @@
                                 <input type="text"
                                        class="form-control custom-input @error('labels') is-invalid @enderror"
                                        name="labels"
-                                       placeholder="e.g. urgent, bug"/>
+                                       placeholder="e.g. urgent, bug"
+                                       value="{{ old('labels') }}"/>
 
                                 <div class="invalid-feedback">
                                     @error('labels')

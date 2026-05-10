@@ -27,7 +27,7 @@ class UpdateTaskRequest extends FormRequest
         return [
             "title" => ["string","min:3","max:255",Rule::unique('tasks', 'title')->ignore($taskId)->whereNull('deleted_at')],
             "user_id" => "exists:users,id",
-            "priority" => "string|min:1",
+            "priority" => "string|min:1|in:low,medium,high,urgent",
             "status" => "string|min:1",
             "due_date" => "date",
             "project_id" => "numeric|min:1",
@@ -48,6 +48,7 @@ class UpdateTaskRequest extends FormRequest
             "title.max" => "The title must not exceed 255 characters.",
             "user_id.exists" => "The selected user_id is invalid.",
             "priority.string" => "The priority must be a string.",
+            "priority.in" => "The priority must be one of the following: low, medium, high, urgent.",
             "status.string" => "The status must be a string.",
             "due_date.date" => "The due_date must be a valid date.",
             "project_id.exists" => "The selected project_id is invalid.",

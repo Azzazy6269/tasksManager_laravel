@@ -24,7 +24,8 @@ class StoreTaskRequest extends FormRequest
         return [
             "title" => "required|string|min:3|max:255|unique:tasks,title",
             "user_id" => "required|exists:users,id",
-            "priority" => "required|string",
+            "priority" => "required|string|in:low,medium,high,urgent",
+            "priority.in" => "The priority must be one of the following: low, medium, high, urgent.",
             "status" => "required|string",
             "due_date" => "required|date",
             "project_id" => "required|numeric",
