@@ -18,11 +18,11 @@ class TaskController extends Controller
         return view("tasks.index", ["tasks" => $tasks]);
     }
 
-    public function show($id)
+    public function show($slug)
     {
-        $task = Task::with('user')->findorfail($id);
+        $task = Task::with('user')->where('slug', $slug)->firstOrFail();
         $users = User::all();
-        $comments = Comment::where(['commentable_id'=>$id, 'commentable_type'=>'App\Models\Task'])->with('user')->get();
+        $comments = Comment::where(['commentable_id'=>$task->id, 'commentable_type'=>'App\Models\Task'])->with('user')->get();
         return view("tasks.show", ["task" => $task, "users" => $users, "comments" => $comments]);
     }
 
@@ -42,19 +42,19 @@ class TaskController extends Controller
             $validated['labels'] = explode(',', $validated['labels']);
         }
         $task =Task::create($validated);
-        return redirect()->route('tasks.show', $task['id']);
+        return redirect()->route('tasks.show', $task);
     }
 
-    public function edit($id)
+    public function edit($slug)
     {
-        $task = Task::findorfail($id);
+        $task = Task::where('slug', $slug)->firstOrFail();
         $users = User::all();
         return view("tasks.edit", ["task" => $task], ["users" => $users]);
     }
 
-    public function update(UpdateTaskRequest $request, $id)
+    public function update(UpdateTaskRequest $request, $slug)
     {
-        $task = Task::findorfail($id);
+        $task = Task::where('slug', $slug)->firstOrFail();
         $validated = $request->validated();
         if (isset($validated['tags'])) {
             $validated['tags'] = explode(',', $validated['tags']);
@@ -62,33 +62,29 @@ class TaskController extends Controller
         if (isset($validated['labels'])) {
             $validated['labels'] = explode(',', $validated['labels']);
         }
-        Task::where("id", $id)->update($validated);
-        return redirect()->route('tasks.show', $task['id']);
+        Task::where("id", $task->id)->update($validated);
+        return redirect()->route('tasks.show', $task);
     }
 
-    public function delete($id){
-        $task = Task::findorfail($id);
+    public function delete($slug){
+        $task = Task::where('slug', $slug)->firstOrFail();
         return view("tasks.destroy", ["task" => $task]);
     }
 
-    public function destroy($id){
-        $task = Task::findorfail($id);
+    public function destroy($slug){
+        $task = Task::where('slug', $slug)->firstOrFail();
         $task->delete();
         return redirect()->route("tasks.index");
     }
 
     public function getDeleted(Request $request){
-        $tasks = Task::onlyTrashed()->get();
-        $tasksCount = $tasks->count();
-        $pages = ceil($tasksCount / 10);
-        $page = $request->query('page',1);
-        $tasks = Task::onlyTrashed()->skip(($page - 1) * 10)->take(10)->get();
-        return view("tasks.deleted", ["tasks" => $tasks, "pages" => $pages]);
+        $tasks = Task::onlyTrashed()->paginate(10);
+        return view("tasks.deleted", ["tasks" => $tasks]);
     }
     
-    public function restore($id)
+    public function restore($slug)
     {
-        $task = Task::withTrashed()->findOrFail($id);
+        $task = Task::withTrashed()->where('slug', $slug)->firstOrFail();
         $task->restore();
         return redirect()->route('tasks.deleted');
     }

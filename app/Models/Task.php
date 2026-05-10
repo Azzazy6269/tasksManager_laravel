@@ -4,9 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Cviebrock\EloquentSluggable\Sluggable;
+
 
 class Task extends Model
 {
+    use Sluggable;
     use SoftDeletes;
     protected $table = 'tasks';
     protected $fillable =[
@@ -36,7 +39,18 @@ class Task extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'title'
+            ]
+        ];
+    }
+
 }
-
-
 ?>

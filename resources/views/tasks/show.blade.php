@@ -195,7 +195,7 @@
                     Back
                 </a>
 
-                <a href="{{ route("tasks.edit", $task['id']) }}"
+                <a href="{{ route("tasks.edit", $task) }}"
                    class="bg-yellow-400 hover:bg-yellow-500 text-black font-bold px-4 py-2 rounded shadow">
                     Edit Task
                 </a>

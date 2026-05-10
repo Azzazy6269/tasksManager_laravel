@@ -26,7 +26,7 @@
 
         <div class="bg-white dark:bg-gray-800 shadow-sm rounded-xl p-6 border-t-4 border-blue-500">
 
-            <form method="post" action="{{ route("tasks.update", $task['id']) }}">
+            <form method="post" action="{{ route("tasks.update", $task) }}">
                 @csrf
                 @method('PUT')
 

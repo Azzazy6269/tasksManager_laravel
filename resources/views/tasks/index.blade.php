@@ -77,17 +77,17 @@
 
                             <div class="flex justify-end gap-2">
 
-                                <a href="{{ route("tasks.show", ["task" =>$task['id']]) }}"
+                                <a href="{{ route("tasks.show", ["task" =>$task]) }}"
                                    class="text-green-600 hover:underline">
                                     Show
                                 </a>
 
-                                <a href="{{ route("tasks.edit", ["task" =>$task['id']]) }}"
+                                <a href="{{ route("tasks.edit", ["task" =>$task]) }}"
                                    class="text-yellow-600 hover:underline">
                                     Edit
                                 </a>
 
-                                <a href="{{ route("tasks.delete", ["task" =>$task['id']]) }}"
+                                <a href="{{ route("tasks.delete", ["task" =>$task]) }}"
                                    class="text-red-600 hover:underline">
                                     Delete
                                 </a>

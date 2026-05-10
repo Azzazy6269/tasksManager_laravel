@@ -157,12 +157,12 @@
                     Back
                 </a>
 
-                <a href="{{ route("tasks.show", $task['id']) }}"
+                <a href="{{ route("tasks.show", $task) }}"
                    class="border border-blue-500 text-blue-600 px-4 py-2 rounded hover:bg-blue-50">
                     View
                 </a>
 
-                <a href="{{ route("tasks.edit", $task['id']) }}"
+                <a href="{{ route("tasks.edit", $task) }}"
                    class="bg-yellow-400 hover:bg-yellow-500 text-black font-bold px-4 py-2 rounded shadow">
                     Edit
                 </a>

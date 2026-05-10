@@ -25,7 +25,7 @@ class UpdateTaskRequest extends FormRequest
         $taskId = $this->route('task');
         //dd($taskId);
         return [
-            "title" => ["string","min:3","max:255",Rule::unique('tasks', 'title')->ignore($taskId)->whereNull('deleted_at')],
+            "title" => ["string","min:3","max:255",Rule::unique('tasks', 'title')->ignore($taskId,'slug')->whereNull('deleted_at')],
             "user_id" => "exists:users,id",
             "priority" => "string|min:1|in:low,medium,high,urgent",
             "status" => "string|min:1",

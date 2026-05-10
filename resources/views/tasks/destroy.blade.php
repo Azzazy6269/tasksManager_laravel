@@ -29,7 +29,7 @@
             <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
 
                 <form method="post"
-                      action="{{ route("tasks.destroy",["task"=>$task['id']]) }}"
+                      action="{{ route("tasks.destroy",["task"=>$task]) }}"
                       class="inline">
                     @csrf
                     @method("DELETE")

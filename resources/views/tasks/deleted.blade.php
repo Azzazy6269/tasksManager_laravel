@@ -10,14 +10,7 @@
         </a>
     </div>
 
-    <div class="flex items-center flex-wrap mb-6">
-        @for($page = 1; $page <= $pages; $page++)
-            <a href="{{ route('tasks.index', ['page' => $page]) }}"
-               class="px-3 py-1 mr-1 mb-2 border border-gray-300 rounded text-gray-700 hover:bg-gray-100 shadow-sm">
-                {{ $page }}
-            </a>
-        @endfor
-    </div>
+    
 
     <div class="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
         <div class="overflow-x-auto">
@@ -70,7 +63,7 @@
 
                             <td class="py-3 px-4 text-right">
                                 <form method="post"
-                                      action="{{ route('tasks.restore', ['task' => $task['id']]) }}">
+                                      action="{{ route('tasks.restore', ['task' => $task]) }}">
                                     @csrf
                                     @method('PATCH')
 
@@ -86,5 +79,10 @@
 
             </table>
         </div>
+        <!--div class="flex justify-end p-4">
+        </div-->
+        <div class="flex justify-end p-4">
+        {{ $tasks->links() }}
+    </div>
     </div>
 </x-app-layout>
