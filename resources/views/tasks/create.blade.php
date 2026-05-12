@@ -54,7 +54,7 @@
                         </div>
 
                         <div class="mb-5">
-                            <label class="block font-semibold mb-2 text-gray-700">Creator</label>
+                            <!--label class="block font-semibold mb-2 text-gray-700">Creator</label>
 
                             <select class="w-full border border-gray-200 bg-gray-50 rounded-xl p-3"
                                     name="user_id">
@@ -69,7 +69,7 @@
                             </select>
                         </div>
 
-                        <div class="mb-5">
+                        <div class="mb-5"-->
                             <label class="block font-semibold mb-2 text-gray-700">Assigned To</label>
 
                             <input type="text"
