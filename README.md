@@ -1,59 +1,90 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Project Description
+Overview:
+Developed a comprehensive, Trello-inspired Task Management System (TasksManager) designed for high-performance project tracking. This application handles complex data relationships, secure user authentication, and provides a seamless RESTful API for external integrations.
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Key Technical Features:
 
-## About Laravel
+Robust Core Logic: Implemented full CRUD operations using RESTful Resource Controllers and optimized database interactions with Migrations, Seeders, and Factories (capable of handling 500+ records instantly).
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Advanced Database Architecture: * Utilized Polymorphic Relationships for a flexible commenting system (reusable across multiple models).
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Designed complex One-to-Many relationships for task creators and assignees.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Optimized database performance using Eager Loading to eliminate the N+1 query problem.
 
-## Learning Laravel
+Security & Validation:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Engineered secure Form Request Validation for all inputs (Title, Description, Priority, etc.).
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Integrated Laravel Breeze for session-based authentication and Laravel Sanctum for secure API token management.
 
-## Laravel Sponsors
+Advanced Media Handling: * Developed a multiple-image upload system using Laravel Storage.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Implemented automated file cleanup (deleting old files from storage upon update/deletion) and custom Model Mutators for clean URL handling.
 
-### Premium Partners
+Third-Party Integrations: * Enabled Social Authentication (OAuth) via Google and GitHub using Laravel Socialite.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Implemented SEO-friendly URLs using Eloquent Sluggable.
 
-## Contributing
+API Development: Built a fully functional RESTful API with dedicated API Resources for standardized JSON responses, including pagination and nested user data.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+User Experience (UX):
 
-## Code of Conduct
+Integrated Soft Deletes for data recovery.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Utilized Carbon for localized and human-readable date formatting.
 
-## Security Vulnerabilities
+Built reusable UI components using Laravel Blade Components.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Technical Stack:
 
-## License
+Backend: Laravel (Latest Version), PHP.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Database: MySQL (Complex Relationships, Polymorphism).
+
+Authentication: Laravel Breeze, Sanctum (API), Socialite (OAuth).
+
+Frontend: Blade Templating, Tailwind CSS, Blade Components.
+
+Packages: Cviebrock/Eloquent-Sluggable, Carbon.
+
+
+How to Run the Project
+Follow these steps to get the project up and running on your local machine:
+
+Clone the repository:
+
+Bash
+git clone https://github.com/your-username/tasksManager.git
+cd tasksManager
+Install Dependencies:
+
+Bash
+composer install
+npm install
+Environment Setup:
+
+Create a .env file from the example:
+
+Bash
+cp .env.example .env
+Generate the application key:
+
+Bash
+php artisan key:generate
+Configure your database settings in the .env file.
+
+Database Migration & Seeding:
+This will create the tables and populate the database with 500 sample records (Tasks & Users):
+
+Bash
+php artisan migrate:fresh --seed
+Compile Assets:
+
+Bash
+npm run dev
+Start the Server:
+
+Bash
+php artisan serve
+Now, you can access the project at http://127.0.0.1:8000.
