@@ -18,9 +18,7 @@
         <nav class="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-16"> <div class="flex-shrink-0 flex items-center">
-                        <span class="font-extrabold text-2xl tracking-tight text-indigo-600 dark:text-indigo-400">
-                            {{ config('app.name', 'Laravel') }}
-                        </span>
+                        <x-application-logo class="w-10 h-10 fill-current text-primary" />
                     </div>
 
                     <div class="flex items-center gap-6">

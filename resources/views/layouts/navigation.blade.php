@@ -5,7 +5,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('tasks.index') }}">
+                    <a href="{{ route('tasks.index') }}" class="font-bold text-xl text-primary hover:text-primary-hover">
                         Tasks
                     </a>
                 </div>
