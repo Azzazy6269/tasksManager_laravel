@@ -17,9 +17,12 @@
 
         <nav class="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between items-center h-16"> <div class="flex-shrink-0 flex items-center">
+                <div class="flex justify-between items-center h-16">
+                    <a href="{{ route('welcome') }}">
                         <x-application-logo class="w-10 h-10 fill-current text-primary" />
-                    </div>
+                    </a>
+                    <div class="flex-shrink-0 flex items-center">
+                    
 
                     <div class="flex items-center gap-6">
                         @include('layouts.navigation')

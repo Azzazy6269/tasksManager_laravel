@@ -157,7 +157,7 @@
                         <p class="text-sm text-slate-200 mt-2 max-w-lg leading-relaxed">Drag, drop, and complete tasks with reactive visual status feedback updating instantly via secure background threads.</p>
                     </div>
                     <img 
-                        src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop&q=80" 
+                        src="istockphoto-2196870531-612x612.jpg" 
                         alt="Feature Interactive Showcase" 
                         class="w-full h-full object-cover min-h-[200px] max-h-[350px] group-hover:scale-105 transition duration-500"
                     >
@@ -229,7 +229,7 @@
                 <div  class="lg:col-span-6 space-y-6">
                     <div class="rounded-3xl border border-slate-100 bg-slate-50 p-3 shadow-sm overflow-hidden">
                         <img 
-                            src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&auto=format&fit=crop&q=80" 
+                            src="photo-1576267423429-569309b31e84.avif" 
                             alt="Process Integration View" 
                             class="w-full h-auto object-cover rounded-2xl aspect-[16/10]"
                         >

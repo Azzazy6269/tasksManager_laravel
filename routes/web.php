@@ -8,7 +8,7 @@ use App\Http\Controllers\Auth\SocialLoginController;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 Route::middleware('auth') -> group(function () {
     Route::get("/tasks", [TaskController::class, "index"])->name("tasks.index");
