@@ -55,7 +55,7 @@ Follow these steps to get the project up and running on your local machine:
 Clone the repository:
 
 Bash
-git clone https://github.com/your-username/tasksManager.git
+git clone repo link
 cd tasksManager
 Install Dependencies:
 
